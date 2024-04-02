@@ -35,7 +35,7 @@ const Login = async (req, res) => {
     if (result.length > 0) {
       const vFy = await bcrypt.compare(credentials.password, result[0].password)
       console.log('vfy ', result[0].password)
-      console.log("hashed: ",bcrypt.compare(credentials.password, rs[0].password))
+      console.log("hashed: ",bcrypt.compare(credentials.password, result[0].password))
 
       if (vFy) {
         const token = jwt.sign(credentials, secret)
