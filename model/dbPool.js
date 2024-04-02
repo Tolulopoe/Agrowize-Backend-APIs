@@ -40,15 +40,15 @@ conn.query(sqlQuery,values,(err,result)=>{
 
 // const sql = "insert into product(product_name,unit_price,quantity,total)values(?,?,?,?)";
 const signupSyntax = "insert into Users(fullName,email,password,confirmPassword)values(?,?,?,?)";
-const loginSyntax = "select * from Users where email = ?";
+const loginSyntax = "select * from Users where email =?";
 const logoutSyntax = "select * from Users where email = ?";
 // const updateLoginSyntax = "update Users set password = ? where email = ?";
 const resetSyntax = "update Users set password = ? where email = ?";
 const updateProfileSyntax = "UPDATE Users set fullName =?, Nickname =?, email =?, Contact =? where email =?";
-const aboutusSyntax = "insert into contact_us(fullNames,userName,Message,create_time)values(?,?,?,?)";
+const aboutusSyntax = "insert into contact_us(fullNames,userName,Message)values(?,?,?)";
 const existingUser = "select * from Users where email =?";
 const otpSyntax ="INSERT INTO OTP (email, otp, expiry_time) VALUES (?, ?, ?)";
-const selectQuery = "SELECT * FROM OTP WHERE email = ? AND otp = ? AND expiry_time > NOW()";
+const selectQuery = "SELECT otp, email FROM OTP WHERE otp =?" //SELECT * FROM OTP WHERE email = ? AND otp = ? AND expiry_time > NOW()";//
 const resourceSyntax = 'SELECT * FROM resources';
 const cousesSql='SELECT * FROM courses';
 // const pwordChangeSyntax = "update Users set "

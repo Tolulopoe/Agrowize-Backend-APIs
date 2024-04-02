@@ -1,15 +1,12 @@
 const bcrypt = require('bcryptjs');
 const { getConnection, runQueryValues, resetSyntax } = require('../model/dbPool');
-// import('./signup');
-const {signup} = require('../controllers/signup')
-// const email = req.body.username
+
 async function resetPassword(req, res) {
     const Credentials = {
-        email:req.body.email,
+        email:req.body.username,
         password: req.body.userpassword,
         newpassword: req.body.confirmpassword
     };
-
     console.log(Credentials);
 
     if (Credentials.password === "" || Credentials.newpassword === "") {
@@ -22,10 +19,16 @@ async function resetPassword(req, res) {
 
     const connection = await getConnection();
     try {
-        // Assuming resetSyntax contains the SQL update statement
         const result = await runQueryValues(connection, resetSyntax, [bcrypt.hashSync(Credentials.newpassword)]);
+        if(result){
+            const storedEmail = result[0].email
+        const storedPassword = result[0].password
+        // Assuming resetSyntax contains the SQL update statement
+        if(email===storedEmail && password===storedPassword){
         res.status(200).json({ message: result });
-    } catch (err) {
+        }
+    }
+    }catch (err) {
         console.error('Error resetting password:', err);
         res.status(500).json({ error: 'An error occurred while resetting password.' });
     } finally {
