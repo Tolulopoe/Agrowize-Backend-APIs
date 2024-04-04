@@ -13,7 +13,11 @@ const Login = async (req, res) => {
     password: req.body.userpassword,
   };
   console.log(credentials)
-
+  if (credentials.username === "" || credentials.password === "") {
+    return res.status(412).json({ message: "Empty input fields!" });
+} else if (credentials.password.length < 8) {
+    return res.status(412).json({ message: "Password must have at least 8 characters" });
+} 
   const connection = await getConnection();
   try {
     const exists = await runQueryValues(connection, existingUser, [
@@ -26,8 +30,8 @@ const Login = async (req, res) => {
         message: "User does not exist, please sign up",
       });
     } else if (exists.length > 0) {
-      return res.status(400).json({
-        success: false,
+      return res.status(200).json({
+        success: true,
         message: "logged in successfully",
       });
     }

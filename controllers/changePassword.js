@@ -7,17 +7,17 @@ async function passwordChange(req, res) {
         confirmPassword:req.body.confirmpassword,
     }
     console.log(newCredentials)
-    if (newCredentials.newPassword == "" || newCredentials.confirmPassword == "") {
+    if (newCredentials.password =="" || newCredentials.newPassword == "" || newCredentials.confirmPassword == "") {
         res.json({
             status: 412,
             message: "Empty input fields!"
         })
-    } else if (credentials.password.length < 8) {
+    } else if (newCredentials.password.length < 8) {
         res.json({
             status: "FAILED",
             message: "Password must have at least 8 characters"
         })
-    } else if (newCredentials.confirmPassword.length < 8 || newCredentials.confirmPassword != newCredentials.newPassword) {
+    } else if (newCredentials.confirmPassword != newCredentials.newPassword) {
         res.json({
             status: "FAILED",
             message: "Passwords do not match"
