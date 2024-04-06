@@ -23,7 +23,7 @@ const {courses} = require('../controllers/courses');
 router.get('/',home)
 router.get('/details',verifyAuth,details)//local database
 router.post('/signup',signup)// local database 
-router.get('/login',Login)// local database
+router.post('/login',Login)// local database
 router.post('/forgotPass',forgotPass)// local database
 router.post('/verifyOtp',verifyOtp)
 router.post('/passwordReset',resetPassword)//local database
