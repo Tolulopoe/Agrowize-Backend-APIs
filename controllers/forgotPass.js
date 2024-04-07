@@ -1,4 +1,4 @@
-const { getConnection, runQueryValues, otpSyntax } = require('../model/dbPool');
+const { getConnection, runQueryValues, otpSyntax,existingUser } = require('../model/dbPool');
 const mailSender = require('./mailer');
 const moment = require('moment-timezone')
 
@@ -24,9 +24,24 @@ console.log("expires", expiry_time);
 if (userOtp.email === "" || userOtp.otp === "") {
   return res.status(412).json({ message: "Empty input fields!" });
 } 
-  const connection = await getConnection();
+const connection = await getConnection();
   
   try {
+      const exists = await runQueryValues(connection, existingUser, [
+        userOtp.email,
+      ]);
+      console.log("exists ", exists);
+      if ((exists.length == 0)) {
+        return res.status(400).json({
+          success: false,
+          message: "User does not exist",
+        });
+      } else if (exists.length > 0) {
+        return res.status(200).json({
+          success: true,
+          message: "OTP sent successfully",
+        })
+      }
     const result = await runQueryValues(connection, otpSyntax, [userOtp.email, userOtp.otp, userOtp.currentTime,userOtp.expiry_time]);
 console.log(result)
     if (result) {
