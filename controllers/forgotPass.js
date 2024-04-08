@@ -37,18 +37,14 @@ const connection = await getConnection();
           message: "User does not exist",
         });
       } else if (exists.length > 0) {
-        return res.status(200).json({
-          success: true,
-          message: "OTP sent successfully",
-        })
-      }
     const result = await runQueryValues(connection, otpSyntax, [userOtp.email, userOtp.otp, userOtp.currentTime,userOtp.expiry_time]);
 console.log(result)
     if (result) {
       mailSender(userOtp.email, "OTP", `Your OTP for password reset is: ${userOtp.otp}. This OTP will expire in 6 minutes.`);
       res.status(200).json({ message: 'OTP sent successfully.' });
-      // res.redirect('/verifyOtp')
+      console.log(userOtp.o)
   } 
+}
 }catch (err) {
   console.error('Error storing OTP:', err);
   // res.status(500).json({ error: 'An error occurred while storing OTP.' });
