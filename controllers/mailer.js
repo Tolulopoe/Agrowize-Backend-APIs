@@ -12,8 +12,8 @@ const mailSender = async (email, title, body) => {
     // secureConnection:false,
       auth: {
         // type : "OAuth2",
-        user: 'treasureddammie@gmail.com',
-        pass: 'zujnrbkdvkeiugga',
+        user: 'agrowizeprojectdiamond@gmail.com',
+        pass: 'zlebivtiimpavful',
       },
       this: {
         rejectUnAuthorized:true
@@ -21,7 +21,7 @@ const mailSender = async (email, title, body) => {
     });
     // Send emails to users
     let info = await transporter.sendMail({
-      from: 'treasureddammie@gmail.com',
+      from: 'agrowizeprojectdiamond@gmail.com',
       to: email,
       subject: title,
       text: body,
