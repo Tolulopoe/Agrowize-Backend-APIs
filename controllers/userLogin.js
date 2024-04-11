@@ -39,7 +39,6 @@ const Login = async (req, res) => {
     if (result.length > 0) {
       const vFy = await bcrypt.compare(credentials.password, result[0].password)
       console.log('vfy ', result[0].password)
-      console.log("hashed: ",bcrypt.compare(credentials.password, result[0].password))
 
       if (vFy) {
         const token = jwt.sign(credentials, secret)
@@ -56,32 +55,4 @@ const Login = async (req, res) => {
     console.log(err);
   }
 };
-module.exports = { Login };
-
-// const result = runQueryValues(connection, loginSyntax, [credentials.email]);
-    // result
-    //   .then((rs) => {
-    //     if (rs) {
-    //       console.log(rs);
-    //       bcrypt.compare(
-    //         credentials.password,
-    //         rs[0].password,
-    //         (err, isMatch) => {
-    //           console.log(
-    //             "hashed: ",
-    //             bcrypt.compare(credentials.password, rs[0].password)
-    //           );
-    //           if (isMatch) {
-    //             const token = jwt.sign(credentials, secret);
-    //             res.status(200).json({ message: rs, token });
-    //             console.log(token);
-    //           }
-    //         }
-    //       );
-    //     } else if (err) {
-    //       res.status(403).json({ message: "invalid Login Credentials" });
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+module.exports = { Login }
