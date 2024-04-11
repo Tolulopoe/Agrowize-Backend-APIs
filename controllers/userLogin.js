@@ -16,12 +16,14 @@ const Login = async (req, res) => {
   try{
   if (credentials.username === "" || credentials.password === "") {
     return res.status(412).json({ message: "Empty input fields!" });
-} else if (credentials.password.length < 8) {
-    return res.status(412).json({ message: "Password must have at least 8 characters" });
-} 
-  }catch(err){
+  }
+}catch(err){
     console.log(err, 'Issue with credentials')
   }
+// } else if (credentials.password.length < 8) {
+//     return res.status(412).json({ message: "Password must have at least 8 characters" });
+// } 
+
 console.log(credentials.password)
   const connection = await getConnection();
   try {
