@@ -38,5 +38,3 @@ try{
     }
 
 module.exports = { resetPassword };
-
-
