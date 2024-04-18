@@ -28,7 +28,7 @@ router.post('/login',Login)// local database
 router.post('/forgotPass',forgotPass)// local database
 router.put('/resendOtp',resendOTP)
 router.post('/verifyOtp',verifyOtp)
-router.post('/passwordReset',resetPassword)//local database
+router.put('/passwordReset',resetPassword)//local database
 router.put('/updateProfile',updateProfile)//local database
 router.post('/passwordChange',passwordChange)//local database
 router.get('/logout',logout)
