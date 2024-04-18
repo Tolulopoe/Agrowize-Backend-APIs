@@ -12,11 +12,12 @@ async function resetPassword(req, res) {
 try{
     if (Credentials.password === "" || Credentials.confirmPassword === "") {
         return res.status(412).json({ message: "Empty input fields!" });
-    } else if (Credentials.password.length < 8 || Credentials.confirmPassword.length < 8) {
-        return res.status(412).json({ message: "Password must have at least 8 characters" });
     }else if(Credentials.confirmPassword !== Credentials.password) {
         return res.status(412).json({ message: "Passwords do not match" });
-    }
+    }else if (Credentials.password.length < 8 || Credentials.confirmPassword.length < 8) {
+        return res.status(412).json({ message: "Password must have at least 8 characters" });
+}
+console.log(Credentials.confirmPassword.length)
 }catch(err){
     console.log(err)
     return res.status(500).json({ error: 'An issue occured with password reset' });
