@@ -40,7 +40,7 @@ router.post('/passwordChange',passwordChange)//local database
 router.post('/Logout',Logout)
 
 router.get('/search', sysSearch)
-router.get('/allsearch', allsearch)
+// router.get('/allsearch', allsearch)
 router.post('/contact',contact)// local database
 router.post('/mycourses',mycourses)// local database
 router.get('/courses',courses)
