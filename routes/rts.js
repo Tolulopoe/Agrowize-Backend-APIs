@@ -14,6 +14,7 @@ const {verifyOtp} = require('../controllers/verifyOtp');
 const {resetPassword} = require('../controllers/RESET');
 const {updateProfile} = require('../controllers/updateProfile');
 const {passwordChange} = require('../controllers/changePassword');
+const {subscribe} = require('../controllers/subscribe);
 
 const {sysSearch} = require('../controllers/search');
 const {contact} = require('../controllers/aboutUs');
@@ -28,6 +29,7 @@ router.post('/login',Login)// local database
 router.post('/forgotPass',forgotPass)// local database
 router.put('/resendOtp',resendOTP)
 router.post('/verifyOtp',verifyOtp)
+router.post('/subscribe',subscribe)
 router.put('/passwordReset',resetPassword)//local database
 router.put('/updateProfile',updateProfile)//local database
 router.post('/passwordChange',passwordChange)//local database
