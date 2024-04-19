@@ -16,13 +16,11 @@ const {updateProfile} = require('../controllers/updateProfile');
 const {passwordChange} = require('../controllers/changePassword');
 const {subscribe} = require('../controllers/subscribe');
 
-
 const {sysSearch} = require('../controllers/search');
-const {allsearch} = require('../controllers/allSearch');
+// const {allsearch} = require('../controllers/allSearch');
 const {contact} = require('../controllers/aboutUs');
 const {mycourses} = require('../controllers/mycourses');
 const {courses} = require('../controllers/courses');
-
 
 // const {insertCus} = require('../controllers/customerControl')
 
