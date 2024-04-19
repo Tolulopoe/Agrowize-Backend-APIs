@@ -6,7 +6,7 @@ const {home, about,details} = require('../controllers/users');
 
 const {signup} = require('../controllers/signup');
 const {Login} = require('../controllers/userLogin');
-const {Logout} = require('../controllers/logout');
+// const {Logout} = require('../controllers/logout');
 // const {forgotPassword} = require('../controllers/forgotPasSword');
 const {forgotPass} = require('../controllers/forgotPass');
 const {resendOTP} = require('../controllers/resendOtp');
@@ -35,7 +35,7 @@ router.post('/subscribe',subscribe)
 router.put('/passwordReset',resetPassword)//local database
 router.put('/updateProfile',updateProfile)//local database
 router.post('/passwordChange',passwordChange)//local database
-router.post('/Logout',Logout)
+// router.post('/Logout',Logout)
 
 router.get('/search', sysSearch)
 // router.get('/allsearch', allsearch)
