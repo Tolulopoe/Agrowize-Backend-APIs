@@ -22,7 +22,7 @@ const {allsearch} = require('../controllers/allSearch');
 const {contact} = require('../controllers/aboutUs');
 const {mycourses} = require('../controllers/mycourses');
 const {courses} = require('../controllers/courses');
-const {subscribe} = require('../controllers/subscribe');
+
 
 // const {insertCus} = require('../controllers/customerControl')
 
@@ -42,7 +42,6 @@ router.post('/Logout',Logout)
 router.get('/search', sysSearch)
 router.get('/allsearch', allsearch)
 router.post('/contact',contact)// local database
-router.post('/subscribe',subscribe)
 router.post('/mycourses',mycourses)// local database
 router.get('/courses',courses)
 
