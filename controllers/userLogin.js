@@ -1,10 +1,12 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const {v4:uuidv4 } = require('uuid');
 const {
   getConnection,
   runQueryValues,
   loginSyntax,
   existingUser,
+  sessionsSQL
 } = require("../model/dbPool");
 const secret = "agrowize";
 const Login = async (req, res) => {
@@ -45,10 +47,15 @@ console.log(credentials.password)
     const result = await runQueryValues(connection, loginSyntax, [credentials.email])
     if (result.length > 0) {
       const vFy = await bcrypt.compare(credentials.password, result[0].password)
+      // const vFy = await compare(credentials.password, result[0].password)
       console.log('vfy ', result[0].password)
-
+// if (credentials.password === result[0].password){
+//   vFy=true
+// }
       if (vFy) {
-        const token = jwt.sign(credentials, secret)
+        const sessions_Id = uuidv4()
+        const results = await runQueryValues(connection, sessionsSQL,[result[0].userid,sessions_Id])
+        const token = jwt.sign({userId:result[0].userid, sessions_Id:sessions_Id}, secret)
         res.status(200).json({ message: result, token })
         console.log(token)
       } else {

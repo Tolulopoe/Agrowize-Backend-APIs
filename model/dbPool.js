@@ -40,25 +40,46 @@ conn.query(sqlQuery,values,(err,result)=>{
 
 // const sql = "insert into product(product_name,unit_price,quantity,total)values(?,?,?,?)";
 const signupSyntax = "insert into Users(fullName,email,password,confirmPassword)values(?,?,?,?)";
-const loginSyntax = "select * from Users where email =?";
-const logoutSyntax = "select * from Users where email = ?";
-// const updateLoginSyntax = "update Users set password = ? where email = ?";
-const resetSyntax = "update Users set password = ? where email =?";
-
-const updateProfileSyntax = "UPDATE Users set fullName =?, Nickname =?, email =?, Contact =? where email =?";
-
-const aboutusSyntax = "insert into contact_us(fullNames,userName,Message)values(?,?,?)";
 const existingUser = "select * from Users where email =?";
+const loginSyntax = "select * from Users where email =?";
+const updateProfileSyntax = "UPDATE Users set fullName =?, Nickname =?, email =?, Contact =? where email =?";
 const otpSyntax ="INSERT INTO OTP (email, otp, currentTime, expiry_time) VALUES (?, ?, ?, ?)";
-
+const selectQuery = "SELECT otp, email,expiry_time FROM OTP WHERE otp =?" ;
 const resendotpSyntax = "UPDATE OTP SET otp=?, currentTime=?, expiry_time=? WHERE email =?";
+const resetSyntax = "update Users set password = ? where email =?";
+const aboutusSyntax = "insert into contact_us(fullNames,userName,Message)values(?,?,?)";
 
-const selectQuery = "SELECT otp, email,expiry_time FROM OTP WHERE otp =?" //SELECT * FROM OTP WHERE email = ? AND otp = ? AND expiry_time > NOW()";//
+// Subscribe
+const existingSubscriber = 'select * from Subscribers where email =?';
+const subscribeSyntax= 'INSERT INTO Subscribers (email) values(?)';
+
+// logout
+const sessionsSQL = 'INSERT into Sessions(user_id, sessions_Id)values(?,?)';
+const findSessionsSQL= 'SELECT * FROM Sessions where user_id=? and sessions_Id=?';
+const logoutSyntax = "DELETE FROM Sessions WHERE sessions_Id = ?";
+
+// Search queries
 const searchQuery ="SELECT * FROM Courses WHERE course_name LIKE ?;"
-const mycoursesSyntax = 'INSERT INTO Enrollments (email, course_name) VALUES (?,?)';
-const resourceSyntax = 'SELECT * FROM resources';
-const cousesSql='SELECT * FROM Enrollments where email =?' ;
-// const pwordChangeSyntax = "update Users set "
-module.exports = {getConnection,runQueryValues,signupSyntax,loginSyntax,/*updateLoginSyntax,*/
-updateProfileSyntax,aboutusSyntax,existingUser,resetSyntax,otpSyntax,resendotpSyntax,selectQuery,mycoursesSyntax,
-searchQuery,cousesSql}
+const communitysearchQuery =`SELECT * FROM Communities WHERE name LIKE ?;`
+
+// Courses
+const mycoursesSyntax = 'INSERT INTO Enrollments (user_id, course_id) VALUES (?,?)';
+const courseQuery = 'SELECT * FROM Courses where course_id =?'
+const cousesSql= 'SELECT * FROM Enrollments INNER JOIN Courses ON Enrollments.course_id = Courses.course_id WHERE Enrollments.user_id = ?;'
+const allCoursesSyntax = 'SELECT * FROM Courses';
+
+const settingsQuery = 'REPLACE INTO Settings SET Name=? where user_id=?';
+
+
+//Communities
+const joinCommunitySyntax= 'INSERT into user_communities (user_id,community_id) values(?,?)';
+const getCommunityIdSyntax = "SELECT id FROM Communities WHERE name = ?";
+const myCommunitiesSyntax = 'SELECT * FROM user_communities INNER JOIN Communities ON user_communities.community_id = Communities.id WHERE user_communities.user_id = ?';
+const allCommunitiesSyntax = 'SELECT * FROM Communities';
+// const CommunitiesSyntax= 'SELECT * from Communities where name =?';
+
+
+
+module.exports = {getConnection,runQueryValues,signupSyntax,loginSyntax,logoutSyntax,/*updateLoginSyntax,*/
+updateProfileSyntax,aboutusSyntax,existingUser,existingSubscriber,resetSyntax,findSessionsSQL,otpSyntax,resendotpSyntax,selectQuery,allCoursesSyntax,mycoursesSyntax,
+searchQuery,communitysearchQuery,cousesSql,subscribeSyntax,settingsQuery,joinCommunitySyntax,courseQuery,myCommunitiesSyntax,getCommunityIdSyntax,sessionsSQL,allCommunitiesSyntax}
