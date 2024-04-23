@@ -35,7 +35,7 @@ async function subscribe(req, res) {
           });
         }
     }catch(err){
-        console.err(err)
+        console.log(err)
     }
    
     const result = await runQueryValues(connection,subscribeSyntax,[req.body.email]);
