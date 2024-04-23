@@ -29,7 +29,7 @@ const {mycourses} = require('../controllers/mycourses');
 const {courses} = require('../controllers/courses');
 const {allCourses} = require('../controllers/allCourses')
 //settings
-const {settings} =require('../controllers/settings')
+const {updateSettings} =require('../controllers/settings')
 
 
 router.get('/',home)
@@ -58,6 +58,6 @@ router.post('/joinCommunity', verifyAuth,communitiesJoin)
 router.get('/fetchCommunities', allCommunities)
 router.get('/communitiesJoined', verifyAuth,communitiesJoined)
 //settings
-router.post('/settings',verifyAuth,settings)
+router.put('/settings',verifyAuth,updateSettings)
 
 module.exports= {router};

@@ -68,7 +68,7 @@ const courseQuery = 'SELECT * FROM Courses where course_id =?'
 const cousesSql= 'SELECT * FROM Enrollments INNER JOIN Courses ON Enrollments.course_id = Courses.course_id WHERE Enrollments.user_id = ?;'
 const allCoursesSyntax = 'SELECT * FROM Courses';
 
-const settingsQuery = 'REPLACE INTO Settings SET Name=? where user_id=?';
+const settingsQuery = 'UPDATE Settings SET column3 = ?, column4 = ?, column5 = ?, column6 = ?, column7 = ?, column8 = ?, column9 = ? WHERE  user_id=?';
 
 
 //Communities
