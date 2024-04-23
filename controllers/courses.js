@@ -3,7 +3,7 @@ const {getConnection,runQueryValues,cousesSql,existingUser} = require('../model/
 async function courses(req, res) {
    
     const courses ={
-        email: req.body.email,
+      user_id: req.decoded.userId,
     }
     
     if (courses.email === "") {
@@ -25,7 +25,7 @@ const exists = await runQueryValues(connection, existingUser, [
     });
   }
 try{
-    const result = await runQueryValues(connection, cousesSql, [courses.email]);
+    const result = await runQueryValues(connection, cousesSql, [courses.user_id]);
         
           try{
             if(result){
