@@ -68,8 +68,19 @@ const courseQuery = 'SELECT * FROM Courses where course_id =?'
 const cousesSql= 'SELECT * FROM Enrollments INNER JOIN Courses ON Enrollments.course_id = Courses.course_id WHERE Enrollments.user_id = ?;'
 const allCoursesSyntax = 'SELECT * FROM Courses';
 
-const settingsQuery = 'UPDATE Settings SET column3 = ?, column4 = ?, column5 = ?, column6 = ?, column7 = ?, column8 = ?, column9 = ? WHERE  user_id=?';
-
+//settings
+const insertsettingsQuery= `insert into Settings (user_id, enable_notifications, event_notifications,
+    weekly_personalized_course_recommendations,
+    see_leadership_scores,
+    assignment_reminders,
+    enable_darkmode,
+    newsletter_subscriptions) VALUES(?,?,?,?,?,?,?,?)`
+const settingsQuery = `REPLACE INTO Settings (user_id, enable_notifications, event_notifications,
+    weekly_personalized_course_recommendations,
+    see_leadership_scores,
+    assignment_reminders,
+    enable_darkmode,
+    newsletter_subscriptions) VALUES(?,?,?,?,?,?,?,?)`
 
 //Communities
 const joinCommunitySyntax= 'INSERT into user_communities (user_id,community_id) values(?,?)';
