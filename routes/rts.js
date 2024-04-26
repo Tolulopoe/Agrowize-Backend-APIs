@@ -13,6 +13,7 @@ const {resendOTP} = require('../controllers/resendOtp');
 const {verifyOtp} = require('../controllers/verifyOtp');
 const {resetPassword} = require('../controllers/RESET');
 const {updateProfile} = require('../controllers/updateProfile');
+const {profileUpload} = require('../controllers/profilePicture')
 const {passwordChange} = require('../controllers/changePassword');
 // communities
 const {communitiesJoin} = require('../controllers/communities');
@@ -28,6 +29,10 @@ const {subscribe} = require('../controllers/subscribe');
 const {mycourses} = require('../controllers/mycourses');
 const {courses} = require('../controllers/courses');
 const {allCourses} = require('../controllers/allCourses')
+//lessons
+const {allLessons} = require('../controllers/allLessons')
+const {getUserLessons} = require('../controllers/lessonsperCourse')
+const {getcourseLessons} = require('../controllers/courseLessons')
 //settings
 const {updateSettings} =require('../controllers/settings')
 
@@ -41,6 +46,7 @@ router.put('/resendOtp',resendOTP)
 router.post('/verifyOtp',verifyOtp)
 router.put('/passwordReset',resetPassword)//local database
 router.put('/updateProfile',updateProfile)//local database
+router.put('/addprofileUpload', verifyAuth,profileUpload)
 router.post('/passwordChange',passwordChange)//local database
 router.post('/Logout',verifyAuth,Logout)
 //search
@@ -53,6 +59,10 @@ router.post('/subscribe',subscribe)
 router.post('/mycourses',verifyAuth,mycourses)// local database
 router.get('/courses',verifyAuth,courses)
 router.get('/fetchCourses',allCourses)
+//lessons
+router.get('/allLessons', allLessons)
+router.get('/getlessonsperCourse', verifyAuth,getUserLessons)
+router.get('/getcourseLessons', getcourseLessons )
 //communities
 router.post('/joinCommunity', verifyAuth,communitiesJoin)
 router.get('/fetchCommunities', allCommunities)

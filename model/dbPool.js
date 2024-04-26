@@ -43,6 +43,7 @@ const signupSyntax = "insert into Users(fullName,email,password,confirmPassword)
 const existingUser = "select * from Users where email =?";
 const loginSyntax = "select * from Users where email =?";
 const updateProfileSyntax = "UPDATE Users set fullName =?, Nickname =?, email =?, Contact =? where email =?";
+const profilepictureSyntax = 'UPDATE Users SET profile_picture_path = ? WHERE user_id = ?';
 const otpSyntax ="INSERT INTO OTP (email, otp, currentTime, expiry_time) VALUES (?, ?, ?, ?)";
 const selectQuery = "SELECT otp, email,expiry_time FROM OTP WHERE otp =?" ;
 const resendotpSyntax = "UPDATE OTP SET otp=?, currentTime=?, expiry_time=? WHERE email =?";
@@ -68,6 +69,13 @@ const courseQuery = 'SELECT * FROM Courses where course_id =?'
 const cousesSql= 'SELECT * FROM Enrollments INNER JOIN Courses ON Enrollments.course_id = Courses.course_id WHERE Enrollments.user_id = ?;'
 const allCoursesSyntax = 'SELECT * FROM Courses';
 
+// Lessons
+const enrolledLessonsSyntax = 'SELECT * FROM Courses INNER JOIN lessons ON Courses.course_id = lessons.course_id WHERE Courses.course_id = ?';
+const lessonQuery = 'SELECT *  FROM lessons WHERE lessons.course_id = ?;'
+const enrolledUserQuery = 'SELECT * FROM Enrollments WHERE user_id = ? AND course_id = ?';
+const lessonsSQL= 'SELECT * FROM Enrollments INNER JOIN Courses ON Enrollments.course_id = Courses.course_id WHERE Enrollments.user_id = ?;'
+const allLessonsSQL = 'SELECT * FROM lessons';
+
 //settings
 const insertsettingsQuery= `insert into Settings (user_id, enable_notifications, event_notifications,
     weekly_personalized_course_recommendations,
@@ -92,5 +100,8 @@ const allCommunitiesSyntax = 'SELECT * FROM Communities';
 
 
 module.exports = {getConnection,runQueryValues,signupSyntax,loginSyntax,logoutSyntax,/*updateLoginSyntax,*/
-updateProfileSyntax,aboutusSyntax,existingUser,existingSubscriber,resetSyntax,findSessionsSQL,otpSyntax,resendotpSyntax,selectQuery,allCoursesSyntax,mycoursesSyntax,
-searchQuery,communitysearchQuery,cousesSql,subscribeSyntax,settingsQuery,joinCommunitySyntax,courseQuery,myCommunitiesSyntax,getCommunityIdSyntax,sessionsSQL,allCommunitiesSyntax}
+updateProfileSyntax,profilepictureSyntax,aboutusSyntax,existingUser,existingSubscriber,resetSyntax,findSessionsSQL,
+otpSyntax,resendotpSyntax,selectQuery,allCoursesSyntax,mycoursesSyntax,
+searchQuery,communitysearchQuery,cousesSql,subscribeSyntax,settingsQuery,joinCommunitySyntax,
+courseQuery,myCommunitiesSyntax,getCommunityIdSyntax,sessionsSQL,allCommunitiesSyntax,
+enrolledLessonsSyntax, enrolledUserQuery, lessonQuery, lessonsSQL, allLessonsSQL}
