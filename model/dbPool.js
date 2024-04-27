@@ -69,6 +69,7 @@ const courseQuery = 'SELECT * FROM Courses where course_id =?'
 const cousesSql= 'SELECT * FROM Enrollments INNER JOIN Courses ON Enrollments.course_id = Courses.course_id WHERE Enrollments.user_id = ?;'
 const allCoursesSyntax = 'SELECT * FROM Courses';
 const existingSignup = 'select * from Users where userid = ?'
+const existingEnrollment = 'SELECT * FROM Enrollments WHERE user_id = ? AND course_id = ?;'
 
 
 // Lessons
@@ -117,5 +118,5 @@ updateProfileSyntax,profilepictureSyntax,aboutusSyntax,existingUser,existingSubs
 otpSyntax,resendotpSyntax,selectQuery,allCoursesSyntax,mycoursesSyntax,
 searchQuery,communitysearchQuery,cousesSql,subscribeSyntax,settingsQuery,joinCommunitySyntax,
 courseQuery,myCommunitiesSyntax,getCommunityIdSyntax,sessionsSQL,allCommunitiesSyntax,
-enrolledLessonsSyntax, enrolledUserQuery, lessonQuery, lessonsSQL, existingSignup,allLessonsSQL,
+enrolledLessonsSyntax, enrolledUserQuery, lessonQuery, lessonsSQL, existingSignup,existingEnrollment,allLessonsSQL,
 fetchQuizzesQuery}
