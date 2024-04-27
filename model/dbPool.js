@@ -68,6 +68,8 @@ const mycoursesSyntax = 'INSERT INTO Enrollments (user_id, course_id) VALUES (?,
 const courseQuery = 'SELECT * FROM Courses where course_id =?'
 const cousesSql= 'SELECT * FROM Enrollments INNER JOIN Courses ON Enrollments.course_id = Courses.course_id WHERE Enrollments.user_id = ?;'
 const allCoursesSyntax = 'SELECT * FROM Courses';
+const existingSignup = 'select * from Users where userid = ?'
+
 
 // Lessons
 const enrolledLessonsSyntax = 'SELECT * FROM Courses INNER JOIN lessons ON Courses.course_id = lessons.course_id WHERE Courses.course_id = ?';
@@ -75,6 +77,17 @@ const lessonQuery = 'SELECT *  FROM lessons WHERE lessons.course_id = ?;'
 const enrolledUserQuery = 'SELECT * FROM Enrollments WHERE user_id = ? AND course_id = ?';
 const lessonsSQL= 'SELECT * FROM Enrollments INNER JOIN Courses ON Enrollments.course_id = Courses.course_id WHERE Enrollments.user_id = ?;'
 const allLessonsSQL = 'SELECT * FROM lessons';
+
+// quizzes
+const fetchQuizzesQuery = `
+  SELECT 
+    quiz_id, 
+    question
+  FROM 
+    Quizzes 
+  WHERE 
+    course_id = ?
+`;
 
 //settings
 const insertsettingsQuery= `insert into Settings (user_id, enable_notifications, event_notifications,
@@ -104,4 +117,5 @@ updateProfileSyntax,profilepictureSyntax,aboutusSyntax,existingUser,existingSubs
 otpSyntax,resendotpSyntax,selectQuery,allCoursesSyntax,mycoursesSyntax,
 searchQuery,communitysearchQuery,cousesSql,subscribeSyntax,settingsQuery,joinCommunitySyntax,
 courseQuery,myCommunitiesSyntax,getCommunityIdSyntax,sessionsSQL,allCommunitiesSyntax,
-enrolledLessonsSyntax, enrolledUserQuery, lessonQuery, lessonsSQL, allLessonsSQL}
+enrolledLessonsSyntax, enrolledUserQuery, lessonQuery, lessonsSQL, existingSignup,allLessonsSQL,
+fetchQuizzesQuery}
