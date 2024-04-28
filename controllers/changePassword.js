@@ -5,8 +5,6 @@ const bcrypt = require('bcryptjs');
 async function passwordChange(req, res){
   const { email, password, newPassword, confirmPassword} = req.body;
 
-  console.log(password, newPassword, email)
-
   // Validate inputs
   try{
         if (newPassword === "" || confirmPassword === "") {

@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const {v4:uuidv4 } = require('uuid');
+const {v4: uuidv4  } = require('uuid');
 const {
   getConnection,
   runQueryValues,
@@ -14,7 +14,7 @@ const Login = async (req, res) => {
     email: req.body.username,
     password: req.body.userpassword,
   };
-  console.log(credentials)
+
   try{
   if (credentials.username === "" || credentials.password === "") {
     return res.status(412).json({ message: "Empty input fields!" });
@@ -32,7 +32,6 @@ console.log(credentials.password)
     const exists = await runQueryValues(connection, existingUser, [
       credentials.email,
     ]);
-    console.log("exists ", exists);
     if ((exists.length = 0)) {
       return res.status(400).json({
         success: false,
@@ -53,11 +52,14 @@ console.log(credentials.password)
 //   vFy=true
 // }
       if (vFy) {
-        const sessions_Id = uuidv4()
+        const sessions_Id = uuidv4 ()
+        console.log(sessions_Id)
         const results = await runQueryValues(connection, sessionsSQL,[result[0].userid,sessions_Id])
+        console.log(results)
         const token = jwt.sign({userId:result[0].userid, sessions_Id:sessions_Id}, secret)
-        res.status(200).json({ message: result, token })
-        console.log(token)
+      
+        res.status(200).json({ message: results, token })
+        
       } else {
         res.status(403).json({ message: 'invalid Login Credentials' })
       }
