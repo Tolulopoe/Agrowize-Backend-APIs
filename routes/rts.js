@@ -6,15 +6,18 @@ const {home, about,details} = require('../controllers/users');
 
 const {signup} = require('../controllers/signup');
 const {Login} = require('../controllers/userLogin');
-const {Logout} = require('../controllers/logout');
-// const {forgotPassword} = require('../controllers/forgotPasSword');
 const {forgotPass} = require('../controllers/forgotPass');
 const {resendOTP} = require('../controllers/resendOtp');
 const {verifyOtp} = require('../controllers/verifyOtp');
 const {resetPassword} = require('../controllers/RESET');
+
+// user profile
 const {updateProfile} = require('../controllers/updateProfile');
-const {profileUpload} = require('../controllers/profilePicture')
 const {passwordChange} = require('../controllers/changePassword');
+// const {profileUpload} = require('../controllers/profilePicture')
+const {updateProfilePhoto} = require('../controllers/updateprofilePhoto')
+const {userName} = require('../controllers/userName')
+const {Logout} = require('../controllers/logout');
 // communities
 const {communitiesJoin} = require('../controllers/communities');
 const {allCommunities} = require('../controllers/allCommunities');
@@ -22,6 +25,7 @@ const {communitiesJoined} = require('../controllers/myJoinedCommunity');
 //search
 const {coursesSearch} = require('../controllers/coursesSearch');
 const {commSearch} = require('../controllers/communitySearch');
+const {sysSearch} = require('../controllers/search')
 //subscribe and about us
 const {contact} = require('../controllers/aboutUs');
 const {subscribe} = require('../controllers/subscribe');
@@ -40,18 +44,22 @@ const {updateSettings} =require('../controllers/settings')
 router.get('/',home)
 router.get('/details',verifyAuth,details)//local database
 router.post('/signup',signup)// local database 
-router.post('/login',Login)// local database
+router.post('/login',verifyAuth,Login)// local database
 router.post('/forgotPass',forgotPass)// local database
 router.put('/resendOtp',resendOTP)
 router.post('/verifyOtp',verifyOtp)
 router.put('/passwordReset',resetPassword)//local database
+// user profile
 router.put('/updateProfile',updateProfile)//local database
-router.put('/addprofileUpload', verifyAuth,profileUpload)
+router.post('/updateProfilePhoto', verifyAuth,updateProfilePhoto)
+router.post('/addUserName', verifyAuth,userName)
+// router.put('/addprofileUpload', verifyAuth,profileUpload)
 router.post('/passwordChange',passwordChange)//local database
 router.post('/Logout',verifyAuth,Logout)
 //search
 router.get('/search', coursesSearch)
 router.get('/commSearch', commSearch)
+router.get('/allsearch', sysSearch)
 //subscribe and about us
 router.post('/contact',contact)// local database
 router.post('/subscribe',subscribe)

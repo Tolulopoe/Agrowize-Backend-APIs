@@ -43,12 +43,14 @@ const signupSyntax = "insert into Users(fullName,email,password,confirmPassword)
 const existingUser = "select * from Users where email =?";
 const loginSyntax = "select * from Users where email =?";
 const updateProfileSyntax = "UPDATE Users set fullName =?, Nickname =?, email =?, Contact =? where email =?";
-const profilepictureSyntax = 'UPDATE Users SET profile_picture_path = ? WHERE user_id = ?';
+const userNameSyntax = 'SELECT fullName from Users where userid =?';
+const profilepictureSyntax = 'UPDATE Users SET profile_photo_id = ? WHERE userid = ?';
 const otpSyntax ="INSERT INTO OTP (email, otp, currentTime, expiry_time) VALUES (?, ?, ?, ?)";
 const selectQuery = "SELECT otp, email,expiry_time FROM OTP WHERE otp =?" ;
 const resendotpSyntax = "UPDATE OTP SET otp=?, currentTime=?, expiry_time=? WHERE email =?";
 const resetSyntax = "update Users set password = ? where email =?";
 const aboutusSyntax = "insert into contact_us(fullNames,userName,Message)values(?,?,?)";
+const binaryDataSyntax = 'INSERT INTO binary_data (data, content_type, description,created_at,userid) values(?,?,?,?,?)'
 
 // Subscribe
 const existingSubscriber = 'select * from Subscribers where email =?';
@@ -62,6 +64,53 @@ const logoutSyntax = "DELETE FROM Sessions WHERE sessions_Id = ?";
 // Search queries
 const searchQuery ="SELECT * FROM Courses WHERE course_name LIKE ?;"
 const communitysearchQuery =`SELECT * FROM Communities WHERE name LIKE ?;`
+const allsearchQuery = `-- Search through various tables, excluding sensitive fields
+-- Corrected search through various tables, excluding sensitive fields
+SELECT
+  'Community' AS TableName,
+  name AS Name
+FROM
+  Communities
+WHERE
+  name LIKE '%search_term%' 
+
+UNION ALL
+
+SELECT
+  'Course' AS TableName,
+  course_name AS Name,
+  description AS Description
+FROM
+  Courses
+WHERE
+  course_name LIKE '%search_term%' OR
+  description LIKE '%search_term%'
+
+UNION ALL
+
+SELECT
+  'Lesson' AS TableName,
+  lesson_title AS Name,
+  lesson_content AS Description
+FROM
+  lessons
+WHERE
+  lesson_title LIKE '%search_term%' OR
+  lesson_content LIKE '%search_term%'
+
+UNION ALL
+
+SELECT
+  'Quiz' AS TableName,
+  quiz_title AS Name,
+  quiz_content AS Description
+FROM
+  quizzes
+WHERE
+  quiz_title LIKE '%search_term%' OR
+  quiz_content LIKE '%search_term%'
+
+`
 
 // Courses
 const mycoursesSyntax = 'INSERT INTO Enrollments (user_id, course_id) VALUES (?,?)';
@@ -85,7 +134,7 @@ const fetchQuizzesQuery = `
     quiz_id, 
     question
   FROM 
-    Quizzes 
+    quizzes 
   WHERE 
     course_id = ?
 `;
@@ -114,9 +163,9 @@ const allCommunitiesSyntax = 'SELECT * FROM Communities';
 
 
 module.exports = {getConnection,runQueryValues,signupSyntax,loginSyntax,logoutSyntax,/*updateLoginSyntax,*/
-updateProfileSyntax,profilepictureSyntax,aboutusSyntax,existingUser,existingSubscriber,resetSyntax,findSessionsSQL,
+updateProfileSyntax,userNameSyntax,profilepictureSyntax,aboutusSyntax,existingUser,existingSubscriber,resetSyntax,findSessionsSQL,
 otpSyntax,resendotpSyntax,selectQuery,allCoursesSyntax,mycoursesSyntax,
-searchQuery,communitysearchQuery,cousesSql,subscribeSyntax,settingsQuery,joinCommunitySyntax,
+searchQuery,communitysearchQuery,allsearchQuery,cousesSql,subscribeSyntax,settingsQuery,joinCommunitySyntax,
 courseQuery,myCommunitiesSyntax,getCommunityIdSyntax,sessionsSQL,allCommunitiesSyntax,
 enrolledLessonsSyntax, enrolledUserQuery, lessonQuery, lessonsSQL, existingSignup,existingEnrollment,allLessonsSQL,
-fetchQuizzesQuery}
+fetchQuizzesQuery,binaryDataSyntax}

@@ -1,4 +1,4 @@
-const {getConnection, runQueryValues, searchQuery} = require('../model/dbPool')
+const {getConnection, runQueryValues, allsearchQuery} = require('../model/dbPool')
 // Search endpoint
 async function sysSearch(req, res){
   const searchTerm = req.body.query; 
@@ -11,7 +11,7 @@ async function sysSearch(req, res){
 const connection = await getConnection();
 try{
   // Execute the query
- const result = await runQueryValues(connection,searchQuery , [`%${searchTerm}%`])
+ const result = await runQueryValues(connection,allsearchQuery , [`%${searchTerm}%`])
     if (result) {
       res.status(200).json(result); // Send the search results as JSON response
       console.log(result);
