@@ -5,16 +5,23 @@ const {
   } = require("../model/dbPool");
 
   async function Logout(req,res){
+    try{
     const sessions_Id= req.decoded.sessions_Id
-
+console.log(req.decoded)
 const connection = await getConnection();
 
 const loggedOut = await runQueryValues(connection, logoutSyntax,[sessions_Id])
-if (loggedOut){
-  res.send('logged out successfully')
+if (loggedOut.affectedRows > 0) {
+  res.status(200).json({ message: 'Session deleted successfully' });
+} else {
+  res.status(404).json({ message: 'Session not found' });
 }
+}catch (error) {
+console.error('Error deleting session:', error);
+res.status(500).json({ message: 'An error occurred while deleting the session' });
+}
+};
 
-  }
 module.exports={Logout}
 
 
