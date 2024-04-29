@@ -57,7 +57,7 @@ console.log(credentials.password)
         const results = await runQueryValues(connection, sessionsSQL,[result[0].userid,sessions_Id])
         console.log(results)
         const token = jwt.sign({userId:result[0].userid, sessions_Id:sessions_Id}, secret)
-      
+        console.log(token)
         res.status(200).json({ message: results, token })
         
       } else {
