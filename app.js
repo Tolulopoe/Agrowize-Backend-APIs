@@ -7,6 +7,14 @@ const { router } = require('./routes/rts');
 app.use(cors());
 // Allowing requests from localhost:3000
 app.use(cors({ origin: 'http://localhost:3000'}))
+
+const corsOptions = {
+    origin: 'https://agrowize.vercel.app', // The allowed origin
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // HTTP methods to allow
+    allowedHeaders: ['Content-Type', 'Authorization'], // Headers to allow
+  };
+  
+  app.use(cors(corsOptions));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:false}))
 app.use((req,res,next)=>{
