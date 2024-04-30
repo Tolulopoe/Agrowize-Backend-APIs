@@ -44,13 +44,13 @@ const {updateSettings} =require('../controllers/settings')
 router.get('/',home)
 router.get('/details',verifyAuth,details)//local database
 router.post('/signup',signup)// local database 
-router.post('/login',verifyAuth,Login)// local database
+router.post('/login',Login)// local database
 router.post('/forgotPass',forgotPass)// local database
 router.put('/resendOtp',resendOTP)
 router.post('/verifyOtp',verifyOtp)
 router.put('/passwordReset',resetPassword)//local database
 // user profile
-router.put('/updateProfile',updateProfile)//local database
+router.put('/updateProfile',verifyAuth,updateProfile)//local database
 router.post('/updateProfilePhoto', verifyAuth,updateProfilePhoto)
 router.post('/addUserName', verifyAuth,userName)
 // router.put('/addprofileUpload', verifyAuth,profileUpload)

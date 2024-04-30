@@ -15,28 +15,29 @@ const Login = async (req, res) => {
     email: req.body.username,
     password: req.body.userpassword,
   };
-
+console.log(credentials.email)
   if (!credentials.email || !credentials.password) { 
-    return res.status(412).json({ message: "Empty input fields!" });
+    return res.status(412).json({ message: "Empty input fields." });
   }
 
   const connection = await getConnection(); 
   try {
     // Check if user exists
-    const exists = await runQueryValues(connection, existingUser, [credentials.email]);
-    if (exists.length === 0) { 
+    const existingUsers = await runQueryValues(connection, existingUser, [credentials.email]);
+    if (existingUsers.length === 0) { 
       connection.release(); 
       return res.status(400).json({
         success: false,
-        message: "User does not exist. Please sign up",
+        message: "Invalid login credentials.", // Avoid revealing if the user exists or not
       });
     }
 
-    // Verifying user password
+    // Verify user password
     const result = await runQueryValues(connection, loginSyntax, [credentials.email]);
     if (result.length > 0) {
-      const isValidPassword = await bcrypt.compare(credentials.password, result[0].password);
-      if (isValidPassword) {
+      const vFy = await bcrypt.compare(credentials.password, result[0].password);
+
+      if (vFy) {
         const sessions_Id = uuidv4();
         await runQueryValues(connection, sessionsSQL, [result[0].userid, sessions_Id]); // Create a new session
         const token = jwt.sign({ userId: result[0].userid, sessions_Id: sessions_Id }, secret);
@@ -50,11 +51,12 @@ const Login = async (req, res) => {
       }
     } else {
       connection.release(); 
-      return res.status(403).json({ message: "Wrong email address." });
+      return res.status(403).json({ message: "Invalid login credentials." }); // Avoid specific info
     }
 
   } catch (error) {
     console.error("Error during login:", error);
+
     if (!res.headersSent) { 
       connection.release(); 
       return res.status(500).json({ message: "An error occurred during login." });
@@ -63,6 +65,7 @@ const Login = async (req, res) => {
 };
 
 module.exports = { Login };
+
 
 
 // const jwt = require("jsonwebtoken");
