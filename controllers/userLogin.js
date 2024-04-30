@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const {v4: uuidv4  } = require('uuid');
+const { v4: uuidv4 } = require('uuid');
 const {
   getConnection,
   runQueryValues,
@@ -9,66 +9,134 @@ const {
   sessionsSQL
 } = require("../model/dbPool");
 const secret = "agrowize";
+
 const Login = async (req, res) => {
   const credentials = {
     email: req.body.username,
     password: req.body.userpassword,
   };
 
-  try{
-  if (credentials.username === "" || credentials.password === "") {
+  if (!credentials.email || !credentials.password) { 
     return res.status(412).json({ message: "Empty input fields!" });
   }
-}catch(err){
-    console.log(err, 'Issue with credentials')
-  }
-// } else if (credentials.password.length < 8) {
-//     return res.status(412).json({ message: "Password must have at least 8 characters" });
-// } 
 
-console.log(credentials.password)
-  const connection = await getConnection();
+  const connection = await getConnection(); 
   try {
-    const exists = await runQueryValues(connection, existingUser, [
-      credentials.email,
-    ]);
-    if ((exists.length = 0)) {
+    // Check if user exists
+    const exists = await runQueryValues(connection, existingUser, [credentials.email]);
+    if (exists.length === 0) { 
+      connection.release(); 
       return res.status(400).json({
         success: false,
-        message: "User does not exist, please sign up",
-      });
-    } else if (exists.length > 0) {
-      return res.status(200).json({
-        success: true,
-        message: "logged in successfully",
+        message: "User does not exist. Please sign up",
       });
     }
-    const result = await runQueryValues(connection, loginSyntax, [credentials.email])
+
+    // Verifying user password
+    const result = await runQueryValues(connection, loginSyntax, [credentials.email]);
     if (result.length > 0) {
-      const vFy = await bcrypt.compare(credentials.password, result[0].password)
-      // const vFy = await compare(credentials.password, result[0].password)
-      console.log('vfy ', result[0].password)
-// if (credentials.password === result[0].password){
-//   vFy=true
-// }
-      if (vFy) {
-        const sessions_Id = uuidv4 ()
-        console.log(sessions_Id)
-        const results = await runQueryValues(connection, sessionsSQL,[result[0].userid,sessions_Id])
-        console.log(results)
-        const token = jwt.sign({userId:result[0].userid, sessions_Id:sessions_Id}, secret)
-        console.log(token)
-        res.status(200).json({ message: results, token })
-        
+      const isValidPassword = await bcrypt.compare(credentials.password, result[0].password);
+      if (isValidPassword) {
+        const sessions_Id = uuidv4();
+        await runQueryValues(connection, sessionsSQL, [result[0].userid, sessions_Id]); // Create a new session
+        const token = jwt.sign({ userId: result[0].userid, sessions_Id: sessions_Id }, secret);
+
+        connection.release(); 
+        return res.status(200).json({ message: "Logged in successfully.", token }); 
+
       } else {
-        res.status(403).json({ message: 'invalid Login Credentials' })
+        connection.release(); 
+        return res.status(403).json({ message: "Invalid login credentials." });
       }
+    } else {
+      connection.release(); 
+      return res.status(403).json({ message: "Wrong email address." });
     }
-    else {
-      res.status(403).json({ message: 'wrong email address' })
+
+  } catch (error) {
+    console.error("Error during login:", error);
+    if (!res.headersSent) { 
+      connection.release(); 
+      return res.status(500).json({ message: "An error occurred during login." });
     }
-  } catch (err) {
-    console.log(err);
   }
 };
-module.exports = { Login }
+
+module.exports = { Login };
+
+
+// const jwt = require("jsonwebtoken");
+// const bcrypt = require("bcryptjs");
+// const {v4: uuidv4  } = require('uuid');
+// const {
+//   getConnection,
+//   runQueryValues,
+//   loginSyntax,
+//   existingUser,
+//   sessionsSQL
+// } = require("../model/dbPool");
+// const secret = "agrowize";
+// const Login = async (req, res) => {
+//   const credentials = {
+//     email: req.body.username,
+//     password: req.body.userpassword,
+//   };
+
+//   try{
+//   if (credentials.username === "" || credentials.password === "") {
+//     return res.status(412).json({ message: "Empty input fields!" });
+//   }
+// }catch(err){
+//     console.log(err, 'Issue with credentials')
+//   }
+// // } else if (credentials.password.length < 8) {
+// //     return res.status(412).json({ message: "Password must have at least 8 characters" });
+// // } 
+
+// console.log(credentials.password)
+//   const connection = await getConnection();
+//   try {
+//     const exists = await runQueryValues(connection, existingUser, [
+//       credentials.email,
+//     ]);
+//     if ((exists.length = 0)) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "User does not exist, please sign up",
+//       });
+//     } else if (exists.length > 0) {
+//       return res.status(200).json({
+//         success: true,
+//         message: "logged in successfully",
+//       });
+//     }
+//     const result = await runQueryValues(connection, loginSyntax, [credentials.email])
+//     if (result.length > 0) {
+//       const vFy = await bcrypt.compare(credentials.password, result[0].password)
+//       // const vFy = await compare(credentials.password, result[0].password)
+//       console.log('vfy ', result[0].password)
+// // if (credentials.password === result[0].password){
+// //   vFy=true
+// // }
+//       if (vFy) {
+//         const sessions_Id = uuidv4 ()
+//         console.log(sessions_Id)
+//         const results = await runQueryValues(connection, sessionsSQL,[result[0].userid,sessions_Id])
+//         console.log(results)
+//         const token = jwt.sign({userId:result[0].userid, sessions_Id:sessions_Id}, secret)
+//         // console.log(token)
+//         res.status(200).json({ message: results, token })
+//         return;
+        
+//       } else {
+//         res.status(403).json({ message: 'invalid Login Credentials' })
+//       }
+//     }
+//     else {
+//       res.status(403).json({ message: 'wrong email address' })
+//     }
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
+// module.exports = { Login }
