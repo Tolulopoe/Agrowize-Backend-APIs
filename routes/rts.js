@@ -52,7 +52,7 @@ router.post('/verifyOtp',verifyOtp)
 router.put('/passwordReset',resetPassword)//local database
 // user profile
 router.put('/updateProfile',verifyAuth,updateProfile)
-router.post('/profileUpdate', verifyAuth,profileUpdate)
+router.get('/profileUpdate', verifyAuth,profileUpdate)
 router.post('/updateProfilePhoto', verifyAuth,updateProfilePhoto)
 router.post('/addUserName', userName)
 // router.put('/addprofileUpload', verifyAuth,profileUpload)
