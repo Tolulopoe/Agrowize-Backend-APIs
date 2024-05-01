@@ -1,12 +1,11 @@
 const { getConnection, runQueryValues, existingSignup, userNameSyntax } = require('../model/dbPool');
-const {verifyAuth} = require('../middleware/auth')
 
 async function userName(req, res) {
-    const user_id = req.decoded.userId;
+    const user_id = req.body.userId;
     
-    console.log('req.decoded:', req.decoded.userId);
+    // console.log('req.decoded:', req.decoded.userId);
 
-    if (!req.decoded || !req.decoded.userId) {
+    if (!user_id ) {
       return res.status(400).json({ success: false, message: 'Invalid or missing userId' });
   }
   
