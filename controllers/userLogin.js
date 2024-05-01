@@ -25,8 +25,6 @@ const Login = async (req, res) => {
 // } else if (credentials.password.length < 8) {
 //     return res.status(412).json({ message: "Password must have at least 8 characters" });
 // } 
-
-console.log(credentials.password)
   const connection = await getConnection();
   try {
     const exists = await runQueryValues(connection, existingUser, [
@@ -46,12 +44,12 @@ console.log(credentials.password)
 
       if (vFy) {
         const sessions_Id = uuidv4 ()
-        console.log(sessions_Id)
+        // console.log(sessions_Id)
         const results = await runQueryValues(connection, sessionsSQL,[result[0].userid,sessions_Id])
         console.log(results)
         const token = jwt.sign({userId:result[0].userid, sessions_Id:sessions_Id}, secret)
         // console.log(token)
-        res.status(200).json({ message: 'logged in successfully', token })
+        res.status(200).json({ message: 'logged in successfully', token, sessions_Id })
         return;
         
       } else {
