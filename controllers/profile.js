@@ -1,11 +1,11 @@
 const { getConnection, runQueryValues, getUserInfoSyntax } = require('../model/dbPool');
 
-const profile = async (req, res) => {
-  let connection;
+async function profile(req, res)  {
+  const userId = req.decoded.userId; 
+  
+  const connection = await getConnection(); 
 
-  try {
-    connection = await getConnection(); 
-    const userId = req.decoded.userId; 
+    try {
     
     if (!userId) {
       return res.status(400).json({ message: "User ID is required." });
