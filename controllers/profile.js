@@ -18,6 +18,7 @@ const fetchProfile = async (req, res) => {
     }else{
       res.status(200).json({message: 'userprofile: ' ,existingUserInfo})
     }
+    
   } catch (error) {
         console.error('Error in profile function:', error);
     
