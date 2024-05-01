@@ -1,22 +1,17 @@
 const { getConnection, runQueryValues, getUserInfoSyntax } = require('../model/dbPool');
-
 async function profile(req, res) {
-  let connection;
-  try {
-    connection = await getConnection();
+    const connection = await getConnection();
     if (!connection) {
       console.error('Connection is undefined');
       return res.status(500).json({ message: "Database connection failed" });
     }
-
     const userId = req.decoded?.userId; 
     if (!userId) {
       return res.status(400).json({ message: "Invalid user ID" });
     }
-
     console.log('User ID:', userId); // Debugging information
     console.log('Connection:', getConnection()); // Check the connection object
-
+try{
     const existingUserInfo = await runQueryValues(connection, getUserInfoSyntax, [userId]);
     if (existingUserInfo.length === 0) {
       return res.status(404).json({ message: "User not found" });
