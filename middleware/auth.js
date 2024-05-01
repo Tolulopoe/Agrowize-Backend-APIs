@@ -11,6 +11,7 @@ const verifyAuth = async (req, res, next) => {
       req.webToken = fullbearer[1];
       req.decoded = jwt.verify(fullbearer[1], "agrowize");
   
+      
       console.log("Decoded token:", req.decoded);
   
       const connection = await getConnection();
