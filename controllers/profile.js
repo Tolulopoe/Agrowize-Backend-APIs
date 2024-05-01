@@ -4,14 +4,16 @@ const profile = async (req, res) => {
   let connection;
 
   try {
-    connection = await getConnection(); // Establish connection
-    const userId = req.decoded.userId; // Get the user ID from the decoded token
+    connection = await getConnection(); 
+    const userId = req.decoded.userId; 
     
     if (!userId) {
       return res.status(400).json({ message: "User ID is required." });
     }
 
     const existingUserInfo = await runQueryValues(connection, getUserInfoSyntax, [userId]);
+
+    console.log(existingUserInfo)
     
     if (existingUserInfo.length === 0) { // User not found
       return res.status(404).json({ message: "User not found." });
@@ -20,7 +22,7 @@ const profile = async (req, res) => {
     // User found, return their profile info
     res.status(200).json({
       message: "User profile",
-      data: existingUserInfo[0], // Return the first (and presumably only) user info object
+      data: existingUserInfo[0], 
     });
 
   } catch (error) {
@@ -31,7 +33,7 @@ const profile = async (req, res) => {
     });
   } finally {
     if (connection) {
-      connection.release(); // Always release the connection
+      connection.release();
     }
   }
 };
