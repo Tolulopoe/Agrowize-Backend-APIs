@@ -2,15 +2,15 @@ const { getConnection, runQueryValues, getUserInfoSyntax } = require('../model/d
 
 async function profile(req, res)  {
   const userId = req.decoded.userId; 
-  
+   
+  if (!userId) {
+    return res.status(400).json({ message: "User ID is required." });
+  }
+
   const connection = await getConnection(); 
 
     try {
-    
-    if (!userId) {
-      return res.status(400).json({ message: "User ID is required." });
-    }
-
+  
     const existingUserInfo = await runQueryValues(connection, getUserInfoSyntax, [userId]);
 
     console.log(existingUserInfo)
