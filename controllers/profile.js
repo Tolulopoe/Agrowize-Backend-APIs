@@ -3,6 +3,7 @@ const { getConnection, runQueryValues, getUserInfoSyntax, updateProfileDetailsSy
 const profile = async (req, res) => {
   const connection = await getConnection();
 
+  
   try {
     const userId = req.decoded.userId; // Assume user ID is derived from a token or session
     

@@ -14,7 +14,7 @@ const {resetPassword} = require('../controllers/RESET');
 // user profile
 const {updateProfile} = require('../controllers/updateProfile');
 const {passwordChange} = require('../controllers/changePassword');
-const {profileUpdate} = require('../controllers/profileUpdate')
+const {profile} = require('../controllers/profile')
 // const {profileUpload} = require('../controllers/profilePicture')
 const {updateProfilePhoto} = require('../controllers/updateprofilePhoto')
 const {userName} = require('../controllers/userName')
@@ -52,7 +52,7 @@ router.post('/verifyOtp',verifyOtp)
 router.put('/passwordReset',resetPassword)//local database
 // user profile
 router.put('/updateProfile',verifyAuth,updateProfile)
-router.get('/profileUpdate', verifyAuth,profileUpdate)
+router.get('/profile', verifyAuth,profile)
 router.post('/updateProfilePhoto', verifyAuth,updateProfilePhoto)
 router.post('/addUserName', userName)
 // router.put('/addprofileUpload', verifyAuth,profileUpload)
