@@ -4,7 +4,7 @@ const profile = async (req, res) => {
   const connection = await getConnection();
   try {
     const userId = req.decoded.userId;
-  console.log(userId)
+  console.log(req.decoded.userId)
     const existingUserInfo = await runQueryValues(connection, getUserInfoSyntax, [userId]);
     console.log(existingUserInfo)
     if (existingUserInfo.length === 0) { 
