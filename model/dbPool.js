@@ -41,8 +41,11 @@ conn.query(sqlQuery,values,(err,result)=>{
 // const sql = "insert into product(product_name,unit_price,quantity,total)values(?,?,?,?)";
 const signupSyntax = "insert into Users(fullName,email,password,confirmPassword)values(?,?,?,?)";
 const existingUser = "select * from Users where email =?";
+const getexistingInfoSyntax = 'SELECT fullName, email, Nickname, Contact FROM Users WHERE email = ?';
+const getUserInfoSyntax = 'SELECT fullName, email, Nickname, Contact FROM Users WHERE userId = ?';
 const loginSyntax = "select * from Users where email =?";
-const updateProfileSyntax = "UPDATE Users set fullName =?, Nickname =?, email =?, Contact =? where email =?";
+const updateProfileSyntax = "UPDATE Users set Nickname =?, Contact =?  where email =?";
+const updateProfileDetailsSyntax ='UPDATE Users SET Nickname = ?, Contact = ?  WHERE userId = ?';
 const userNameSyntax = 'SELECT fullName from Users where userid =?';
 const profilepictureSyntax = 'UPDATE Users SET profile_photo_id = ? WHERE userid = ?';
 const otpSyntax ="INSERT INTO OTP (email, otp, currentTime, expiry_time) VALUES (?, ?, ?, ?)";
@@ -163,8 +166,8 @@ const allCommunitiesSyntax = 'SELECT * FROM Communities';
 
 
 module.exports = {getConnection,runQueryValues,signupSyntax,loginSyntax,logoutSyntax,/*updateLoginSyntax,*/
-updateProfileSyntax,userNameSyntax,profilepictureSyntax,aboutusSyntax,existingUser,existingSubscriber,resetSyntax,findSessionsSQL,
-otpSyntax,resendotpSyntax,selectQuery,allCoursesSyntax,mycoursesSyntax,
+updateProfileSyntax,updateProfileDetailsSyntax,userNameSyntax,profilepictureSyntax,aboutusSyntax,existingUser,getUserInfoSyntax,existingSubscriber,resetSyntax,findSessionsSQL,
+otpSyntax,resendotpSyntax,selectQuery,allCoursesSyntax,mycoursesSyntax,getexistingInfoSyntax,
 searchQuery,communitysearchQuery,allsearchQuery,cousesSql,subscribeSyntax,settingsQuery,joinCommunitySyntax,
 courseQuery,myCommunitiesSyntax,getCommunityIdSyntax,sessionsSQL,allCommunitiesSyntax,
 enrolledLessonsSyntax, enrolledUserQuery, lessonQuery, lessonsSQL, existingSignup,existingEnrollment,allLessonsSQL,
