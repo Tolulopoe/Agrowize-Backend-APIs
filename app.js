@@ -9,12 +9,13 @@ app.use(cors());
 app.use(cors({ origin: 'http://localhost:3000'}))
 
 const corsOptions = {
-    origin: ['https://agrowize.vercel.app', 'http://localhost:3000'],// The allowed origin
+    origin: ['https://agrowize.vercel.app', 'http://localhost:3000', 'https://agrowize-backend-apis.onrender.com'],// The allowed origin
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // HTTP methods to allow
     allowedHeaders: ['Content-Type','Content-Length','Host','User-Agent','Accept','Accept-Encoding','Authorization'], // Headers to allow
   };
   
-  app.use(cors(corsOptions));
+app.use(cors(corsOptions));
+app.use(express.static('Courses_images'));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:false}))
 app.use((req,res,next)=>{

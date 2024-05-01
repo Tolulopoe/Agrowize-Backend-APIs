@@ -1,26 +1,65 @@
 const { getConnection, runQueryValues, getUserInfoSyntax } = require('../model/dbPool');
-const secret = "agrowize";
-const profile = async (req, res) => {
-  const connection = await getConnection();
+
+async function profile(req, res) {
+  let connection;
   try {
-    const userId = req.decoded.userId;
-  console.log(req.decoded.userId)
-    const existingUserInfo = await runQueryValues(connection, getUserInfoSyntax, [userId]);
-    console.log(existingUserInfo)
-    if (existingUserInfo.length === 0) { 
-      connection.release(); 
-      return res.status(404).json({ message: "User not found" });
-    }else{
-      res.status(200).json({message: 'userprofile: ' ,existingUserInfo})
+    connection = await getConnection();
+
+    const userId = req.decoded?.userId; 
+    if (!userId) {
+      return res.status(400).json({ message: "Invalid user ID" });
     }
+
+    console.log('User ID:', userId); // Debugging information
+
+    const existingUserInfo = await runQueryValues(connection, getUserInfoSyntax, [userId]);
+    if (existingUserInfo.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.status(200).json({ message: 'User profile:', existingUserInfo });
+
   } catch (error) {
-    connection.release();
-    return res.status(500)
-    // .json({ 
-    //   message: "An error occurred while updating the profile"});
+    console.error('Error in profile function:', error); 
+
+    return res.status(500).json({ 
+      message: "An error occurred while fetching the profile",
+      error: error.message, 
+    });
+
+  } finally {
+    if (connection) {
+      connection.release(); 
+    }
   }
-};
+}
+
 module.exports = { profile };
+
+
+
+// const { getConnection, runQueryValues, getUserInfoSyntax } = require('../model/dbPool');
+// const profile = async (req, res) => {
+//   const connection = await getConnection();
+//   try {
+//     const userId = req.decoded.userId;
+//   console.log(req.decoded.userId)
+//     const existingUserInfo = await runQueryValues(connection, getUserInfoSyntax, [userId]);
+//     console.log(existingUserInfo)
+//     if (existingUserInfo.length === 0) { 
+//       connection.release(); 
+//       return res.status(404).json({ message: "User not found" });
+//     }else{
+//       res.status(200).json({message: 'userprofile: ' ,existingUserInfo})
+//     }
+//   } catch (error) {
+//     connection.release();
+//     return res.status(500)
+//     // .json({ 
+//     //   message: "An error occurred while updating the profile"});
+//   }
+// };
+// module.exports = { profile };
 
 
     // const currentUser = existingUserInfo[0];
