@@ -11,7 +11,7 @@ app.use(cors({ origin: 'http://localhost:3000'}))
 const corsOptions = {
     origin: ['https://agrowize.vercel.app', 'http://localhost:3000'],// The allowed origin
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // HTTP methods to allow
-    allowedHeaders: ['Content-Type', 'Authorization'], // Headers to allow
+    allowedHeaders: ['Content-Type','Content-Length','Host','User-Agent','Accept','Accept-Encoding','Authorization'], // Headers to allow
   };
   
   app.use(cors(corsOptions));
