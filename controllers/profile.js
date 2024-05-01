@@ -6,19 +6,20 @@ const fetchProfile = async (req, res) => {
           console.error('Connection is undefined');
           return res.status(500).json({ message: "Database connection failed" });
         }
-  try {
+  
     const userId = req.decoded.userId;
     console.log('User ID:', userId); 
         console.log('Connection:', getConnection());
-    const existingUserInfo = await runQueryValues(connection, getUserInfoSyntax, [userId]);
-    console.log(existingUserInfo)
-    if (existingUserInfo.length === 0) { 
+try{
+    const result = await runQueryValues(connection, getUserInfoSyntax, [userId]);
+    console.log(result)
+    if (result.length === 0) { 
       connection.release(); 
       return res.status(404).json({ message: "User not found" });
     }else{
-      res.status(200).json({message: 'userprofile: ' ,existingUserInfo})
+      res.status(200).json({message: 'userprofile: ' ,result})
     }
-    
+
   } catch (error) {
         console.error('Error in profile function:', error);
     
