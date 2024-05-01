@@ -1,70 +1,26 @@
 const { getConnection, runQueryValues, getUserInfoSyntax } = require('../model/dbPool');
-
-async function profile(req, res)  {
-  const userId = req.decoded.userId; 
-   
-  if (!userId) {
-    return res.status(400).json({ message: "User ID is required." });
-  }
-
-  const connection = await getConnection(); 
-
-    try {
-  
+const secret = "agrowize";
+const profile = async (req, res) => {
+  const connection = await getConnection();
+  try {
+    const userId = req.decoded.userId;
+  console.log(req.decoded.userId)
     const existingUserInfo = await runQueryValues(connection, getUserInfoSyntax, [userId]);
-
     console.log(existingUserInfo)
-    
-    if (existingUserInfo.length === 0) { // User not found
-      return res.status(404).json({ message: "User not found." });
+    if (existingUserInfo.length === 0) { 
+      connection.release(); 
+      return res.status(404).json({ message: "User not found" });
+    }else{
+      res.status(200).json({message: 'userprofile: ' ,existingUserInfo})
     }
-
-    // User found, return their profile info
-    res.status(200).json({
-      message: "User profile",
-      data: existingUserInfo[0], 
-    });
-
   } catch (error) {
-    console.error("Error fetching user profile:", error);
-    return res.status(500).json({
-      message: "An error occurred while fetching the user profile.",
-      error: error.message,
-    });
-  } finally {
-    if (connection) {
-      connection.release();
-    }
+    connection.release();
+    return res.status(500)
+    // .json({ 
+    //   message: "An error occurred while updating the profile"});
   }
 };
-
 module.exports = { profile };
-
-
-
-// const { getConnection, runQueryValues, getUserInfoSyntax } = require('../model/dbPool');
-// const secret = "agrowize";
-// const profile = async (req, res) => {
-//   const connection = await getConnection();
-//   try {
-//     const userId = req.decoded.userId;
-//   console.log(req.decoded.userId)
-//     const existingUserInfo = await runQueryValues(connection, getUserInfoSyntax, [userId]);
-//     console.log(existingUserInfo)
-//     if (existingUserInfo.length === 0) { 
-//       connection.release(); 
-//       return res.status(404).json({ message: "User not found" });
-//     }else{
-//       res.status(200).json({message: 'userprofile: ' ,existingUserInfo})
-//     }
-//   } catch (error) {
-//     connection.release();
-//     return res.status(500)
-//     // .json({ 
-//     //   message: "An error occurred while updating the profile"});
-//   }
-// };
-// module.exports = { profile };
 
 
     // const currentUser = existingUserInfo[0];
