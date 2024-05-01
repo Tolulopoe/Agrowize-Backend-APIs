@@ -4,6 +4,10 @@ async function profile(req, res) {
   let connection;
   try {
     connection = await getConnection();
+    if (!connection) {
+      console.error('Connection is undefined');
+      return res.status(500).json({ message: "Database connection failed" });
+    }
 
     const userId = req.decoded?.userId; 
     if (!userId) {
@@ -11,6 +15,7 @@ async function profile(req, res) {
     }
 
     console.log('User ID:', userId); // Debugging information
+    console.log('Connection:', getConnection()); // Check the connection object
 
     const existingUserInfo = await runQueryValues(connection, getUserInfoSyntax, [userId]);
     if (existingUserInfo.length === 0) {
@@ -20,7 +25,7 @@ async function profile(req, res) {
     return res.status(200).json({ message: 'User profile:', existingUserInfo });
 
   } catch (error) {
-    console.error('Error in profile function:', error); 
+    console.error('Error in profile function:', error);
 
     return res.status(500).json({ 
       message: "An error occurred while fetching the profile",
@@ -30,11 +35,14 @@ async function profile(req, res) {
   } finally {
     if (connection) {
       connection.release(); 
+    } else {
+      console.warn('Connection was not released because it is undefined');
     }
   }
 }
 
 module.exports = { profile };
+
 
 
 
